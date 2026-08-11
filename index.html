@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday, Rhythiksha</title>
+  <style>
+    :root{
+      --bg1:#fff1f6;
+      --bg2:#f3f0ff;
+      --card:#ffffffcc;
+      --text:#2a2a2a;
+      --muted:#666;
+      --accent:#ff4d8d;
+      --accent2:#7c5cff;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 20% 10%, #ffe1ec 0%, transparent 55%),
+                  radial-gradient(1000px 500px at 90% 20%, #e6e1ff 0%, transparent 55%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+    .wrap{max-width:900px;margin:0 auto;padding:28px 18px 60px}
+    header{
+      position:relative;
+      padding:26px 18px 18px;
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .badge{
+      display:inline-flex;gap:10px;align-items:center;
+      padding:10px 14px;border-radius:999px;
+      background: #fff;
+      border:1px solid rgba(0,0,0,.06);
+      font-size:14px;color:var(--muted);
+    }
+    .badge span{font-weight:700;color:var(--accent)}
+    h1{
+      margin:14px 0 8px;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height:1.05;
+      letter-spacing:-0.02em;
+    }
+    .sub{margin:0;color:var(--muted);font-size:16px;max-width:60ch}
+    .ctaRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    button, a.btn{
+      border:0;
+      padding:11px 14px;
+      border-radius: 12px;
+      font-weight:700;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;align-items:center;gap:10px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.08);
+    }
+    .primary{background:linear-gradient(90deg, var(--accent), #ff7ab0); color:white;}
+    .secondary{background:white;color:var(--text); border:1px solid rgba(0,0,0,.06); box-shadow:none;}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:14px}
+    @media (max-width:860px){.grid{grid-template-columns:1fr}}
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      padding:18px;
+      border:1px solid rgba(0,0,0,.05);
+    }
+    .card h2{margin:0 0 10px;font-size:20px}
+    .p{margin:10px 0;color:#333;line-height:1.65;white-space:pre-wrap}
+    .muted{color:var(--muted)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .chip{
+      padding:8px 10px;border-radius:999px;background:white;
+      border:1px solid rgba(0,0,0,.06);font-size:13px;color:#444;
+    }
+    .list{
+      margin:10px 0 0; padding:0; list-style:none;
+      display:grid; gap:10px;
+    }
+    .li{
+      background:white;
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:14px;
+      padding:12px 12px;
+      display:flex;gap:10px;align-items:flex-start;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      margin-top:6px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      flex:0 0 auto;
+    }
+    details{
+      background:white;
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:14px;
+      padding:12px 12px;
+    }
+    summary{cursor:pointer;font-weight:800}
+    footer{
+      margin-top:16px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .heart{
+      position:fixed;
+      left:var(--x);
+      top:110%;
+      font-size:18px;
+      animation: floatUp var(--t) linear forwards;
+      opacity:0.9;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.18));
+      pointer-events:none;
+    }
+    @keyframes floatUp{
+      0%{ transform: translateY(0) scale(1) rotate(0deg); opacity:0; }
+      8%{opacity:1}
+      100%{ transform: translateY(-130vh) scale(1.2) rotate(22deg); opacity:0; }
+    }
+    .secret{
+      display:none;
+      margin-top:10px;
+      padding:14px;
+      border-radius:14px;
+      background: linear-gradient(135deg, #fff, #fff3f8);
+      border:1px dashed rgba(255,77,141,.55);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">Made with <span>extra</span> love for <b>Rhythiksha</b></div>
+      <h1>Happy Birthday, Rhythiksha!</h1>
+      <p class="sub">
+        Today is your reminder that you’re genuinely special — not in a “template message” way,
+        but in the very real way you make everything feel lighter, warmer, and better.
+      </p>
+
+      <div class="ctaRow">
+        <button class="primary" id="startBtn">Start the birthday note</button>
+        <button class="secondary" id="heartsBtn">Make it cute ×100</button>
+        <button class="secondary" id="secretBtn" title="Tiny easter egg">Reveal a secret</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card" id="note">
+        <h2>A message for you</h2>
+        <p class="p" id="typeTarget"></p>
+        <div class="chips">
+          <div class="chip">You matter.</div>
+          <div class="chip">You’re appreciated.</div>
+          <div class="chip">You’re a whole vibe.</div>
+          <div class="chip">And I’m lucky to know you.</div>
+        </div>
+
+        <div class="secret" id="secretBox">
+          <b>Secret message:</b>
+          <div class="p" style="margin:8px 0 0">
+            If you ever doubt yourself — don’t. You’re the kind of person people feel safe around.
+            Also… I planned something for you. Keep Aug 19 a little open.
+          </div>
+        </div>
+      </section>
+
+      <aside class="card">
+        <h2>10 reasons you’re amazing</h2>
+        <ul class="list">
+          <li class="li"><span class="dot"></span><div><b>Your kindness</b><div class="muted">It shows up in the smallest details.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your brain</b><div class="muted">The way you think is genuinely impressive.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your humor</b><div class="muted">You make boring moments fun.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your vibe</b><div class="muted">Comforting + cool. Rare combo.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your strength</b><div class="muted">Quietly powerful.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your taste</b><div class="muted">You just get what looks/feels right.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your loyalty</b><div class="muted">You show up. That matters.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your glow</b><div class="muted">You light up a room without trying.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your patience</b><div class="muted">Even when things are chaotic.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>You.</b><div class="muted">Just you being you is the point.</div></div></li>
+        </ul>
+      </aside>
+    </div>
+
+    <section class="card" style="margin-top:14px">
+      <h2>Little “open when” notes</h2>
+      <div style="display:grid;gap:10px;margin-top:10px">
+        <details>
+          <summary>Open when you’re stressed</summary>
+          <div class="p">Breathe. Drink water. Then remember: you’ve handled worse and still looked cute doing it.</div>
+        </details>
+        <details>
+          <summary>Open when you feel unseen</summary>
+          <div class="p">I see you. The effort. The softness. The strength. You’re not invisible to the people who matter.</div>
+        </details>
+        <details>
+          <summary>Open when you want a smile</summary>
+          <div class="p">Okay imagine a tiny celebration committee of cats throwing confetti for you. That’s happening. Right now.</div>
+        </details>
+      </div>
+    </section>
+
+    <footer>
+      Tip: share this link at midnight, or send it with a “don’t open until Aug 19” warning.
+    </footer>
+  </div>
+
+  <script>
+    const message = [
+      "Hey Rhythiksha,",
+      "",
+      "Happy Birthday. I hope today treats you gently and beautifully — like the way you treat other people.",
+      "",
+      "I’m really grateful for you. For your energy, your effort, your care, and for being the kind of person who makes ordinary days feel a little more special.",
+      "",
+      "If I could gift you one thing (other than an actual gift), it would be a constant reminder that you’re doing better than you think — and you deserve good things without having to earn them the hard way.",
+      "",
+      "So here’s to you — your dreams, your growth, your glow, and the next year of becoming even more you.",
+      "",
+      "With a lot of affection,",
+      "— ❤️"
+    ].join("\n");
+
+    const typeTarget = document.getElementById("typeTarget");
+    const startBtn = document.getElementById("startBtn");
+    const heartsBtn = document.getElementById("heartsBtn");
+    const secretBtn = document.getElementById("secretBtn");
+    const secretBox = document.getElementById("secretBox");
+
+    function typeWrite(text, speed=14){
+      typeTarget.textContent = "";
+      let i=0;
+      const timer = setInterval(() => {
+        typeTarget.textContent += text[i] || "";
+        i++;
+        if(i >= text.length) clearInterval(timer);
+      }, speed);
+    }
+
+    function popHearts(count=18){
+      const hearts = ["💗","💖","💞","💕","💘","🌸","✨"];
+      for(let i=0;i<count;i++){
+        const el = document.createElement("div");
+        el.className = "heart";
+        el.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+        el.style.setProperty("--x", Math.floor(Math.random()*100) + "vw");
+        el.style.setProperty("--t", (6 + Math.random()*6) + "s");
+        el.style.fontSize = (16 + Math.random()*16) + "px";
+        document.body.appendChild(el);
+        setTimeout(()=> el.remove(), 13000);
+      }
+    }
+
+    startBtn.addEventListener("click", () => {
+      typeWrite(message, 14);
+      popHearts(10);
+    });
+
+    heartsBtn.addEventListener("click", () => popHearts(28));
+
+    secretBtn.addEventListener("click", () => {
+      secretBox.style.display = secretBox.style.display === "block" ? "none" : "block";
+      popHearts(8);
+    });
+  </script>
+</body>
+</html>
