@@ -1,21 +1,540 @@
-<!-- LOCK SCREEN (3-step verification) -->
-<div class="lock" id="lockScreen">
-  <div class="lockCard" id="lockCard">
-    <div class="sparkle"></div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday, Rhythiksha</title>
 
-    <div class="badge" style="justify-content:center;margin-bottom:10px;">
-      Secret entry ✨
+  <style>
+    :root{
+      --bg1:#fff1f6;
+      --bg2:#f3f0ff;
+      --card:#ffffffcc;
+      --text:#2a2a2a;
+      --muted:#666;
+      --accent:#ff4d8d;
+      --accent2:#7c5cff;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 20% 10%, #ffe1ec 0%, transparent 55%),
+                  radial-gradient(1000px 500px at 90% 20%, #e6e1ff 0%, transparent 55%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+    .wrap{max-width:900px;margin:0 auto;padding:28px 18px 60px}
+    header{
+      position:relative;
+      padding:26px 18px 18px;
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .badge{
+      display:inline-flex;gap:10px;align-items:center;
+      padding:10px 14px;border-radius:999px;
+      background: #fff;
+      border:1px solid rgba(0,0,0,.06);
+      font-size:14px;color:var(--muted);
+    }
+    .badge span{font-weight:700;color:var(--accent)}
+    h1{
+      margin:14px 0 8px;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height:1.05;
+      letter-spacing:-0.02em;
+    }
+    .sub{margin:0;color:var(--muted);font-size:16px;max-width:60ch}
+    .ctaRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    button, a.btn{
+      border:0;
+      padding:11px 14px;
+      border-radius: 12px;
+      font-weight:700;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;align-items:center;gap:10px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.08);
+    }
+    .primary{background:linear-gradient(90deg, var(--accent), #ff7ab0); color:white;}
+    .secondary{background:white;color:var(--text); border:1px solid rgba(0,0,0,.06); box-shadow:none;}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:14px}
+    @media (max-width:860px){.grid{grid-template-columns:1fr}}
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      padding:18px;
+      border:1px solid rgba(0,0,0,.05);
+    }
+    .card h2{margin:0 0 10px;font-size:20px}
+    .p{margin:10px 0;color:#333;line-height:1.65;white-space:pre-wrap}
+    .muted{color:var(--muted)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .chip{
+      padding:8px 10px;border-radius:999px;background:white;
+      border:1px solid rgba(0,0,0,.06);font-size:13px;color:#444;
+    }
+    .list{
+      margin:10px 0 0; padding:0; list-style:none;
+      display:grid; gap:10px;
+    }
+    .li{
+      background:white;
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:14px;
+      padding:12px 12px;
+      display:flex;gap:10px;align-items:flex-start;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      margin-top:6px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      flex:0 0 auto;
+    }
+    details{
+      background:white;
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:14px;
+      padding:12px 12px;
+    }
+    summary{cursor:pointer;font-weight:800}
+    footer{
+      margin-top:16px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* Floating hearts (main page) */
+    .heart{
+      position:fixed;
+      left:var(--x);
+      top:110%;
+      font-size:18px;
+      animation: floatUp var(--t) linear forwards;
+      opacity:0.9;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.18));
+      pointer-events:none;
+      z-index: 9998;
+    }
+    @keyframes floatUp{
+      0%{ transform: translateY(0) scale(1) rotate(0deg); opacity:0; }
+      8%{opacity:1}
+      100%{ transform: translateY(-130vh) scale(1.2) rotate(22deg); opacity:0; }
+    }
+
+    .secret{
+      display:none;
+      margin-top:10px;
+      padding:14px;
+      border-radius:14px;
+      background: linear-gradient(135deg, #fff, #fff3f8);
+      border:1px dashed rgba(255,77,141,.55);
+    }
+
+    /* ===== Cute Lock Screen (3-step verification) ===== */
+    .lock{
+      position: fixed;
+      inset: 0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      background: radial-gradient(1200px 600px at 20% 10%, #ffe1ec 0%, transparent 55%),
+                  radial-gradient(1000px 500px at 90% 20%, #e6e1ff 0%, transparent 55%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      z-index: 9999;
+    }
+    .lockCard{
+      width:min(520px, 100%);
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(0,0,0,.05);
+      padding: 18px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .lockTitle{
+      margin:6px 0 6px;
+      font-size:22px;
+      letter-spacing:-0.01em;
+      font-weight: 900;
+    }
+    .lockSub{margin:0 0 12px;color:var(--muted)}
+    .lockRow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .lockInput{
+      padding: 12px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(0,0,0,.12);
+      font-size:16px;
+      outline:none;
+      min-width: 220px;
+    }
+    .lockHint{margin-top:10px;font-size:13px;color:var(--muted)}
+    .lockError{margin-top:10px;font-size:13px;color:#c1121f;display:none}
+    .sparkle{
+      position:absolute; inset:-40px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.7), transparent 35%),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,.6), transparent 35%),
+        radial-gradient(circle at 30% 80%, rgba(255,255,255,.55), transparent 40%);
+      filter: blur(1px);
+      opacity:.6;
+      pointer-events:none;
+    }
+
+    /* Wrong-code shake */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-10px); }
+      40% { transform: translateX(10px); }
+      60% { transform: translateX(-8px); }
+      80% { transform: translateX(8px); }
+    }
+    .lockCard.shake { animation: shake .35s ease; }
+
+    /* Lock fade out on success */
+    .lock.fadeOut { animation: lockFade .35s ease forwards; }
+    @keyframes lockFade {
+      to { opacity: 0; transform: scale(1.02); }
+    }
+
+    /* Ambient hearts inside lock card */
+    .lockFloat{
+      position:absolute;
+      left: var(--x);
+      top: 110%;
+      font-size: 16px;
+      animation: floatUp var(--t) linear forwards;
+      opacity: .9;
+      pointer-events:none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- LOCK SCREEN (3-step verification) -->
+  <div class="lock" id="lockScreen">
+    <div class="lockCard" id="lockCard">
+      <div class="sparkle"></div>
+
+      <div class="badge" style="justify-content:center;margin-bottom:10px;">
+        Secret entry ✨
+      </div>
+
+      <div class="lockTitle" id="lockTitle">Unlock the birthday page</div>
+      <p class="lockSub" id="lockSub">Hint: your favourite series</p>
+
+      <div class="lockRow">
+        <input class="lockInput" id="codeInput" type="password" placeholder="Password" />
+        <button class="primary" id="unlockBtn">Next</button>
+      </div>
+
+      <div class="lockError" id="lockError">Wrong answer — try again.</div>
+      <div class="lockHint" id="lockHint">Step 1 of 3</div>
     </div>
-
-    <div class="lockTitle" id="lockTitle">Unlock the birthday page</div>
-    <p class="lockSub" id="lockSub">Hint: your favourite series</p>
-
-    <div class="lockRow">
-      <input class="lockInput" id="codeInput" type="password" placeholder="Password" />
-      <button class="primary" id="unlockBtn">Next</button>
-    </div>
-
-    <div class="lockError" id="lockError">Wrong answer — try again.</div>
-    <div class="lockHint" id="lockHint">Step 1 of 3</div>
   </div>
-</div>
+
+  <!-- MAIN PAGE -->
+  <div class="wrap">
+    <header>
+      <div class="badge">Made with <span>extra</span> love and care for <b>Rhythiksha</b></div>
+      <h1>Happy Birthday, Rhythiksha!</h1>
+      <p class="sub">
+        Today is your reminder that you’re genuinely special — not in a “template message” way,
+        but in the very real way you make everything feel lighter, warmer, and better.
+      </p>
+
+      <div class="ctaRow">
+        <button class="primary" id="startBtn">Start the birthday note</button>
+        <button class="secondary" id="heartsBtn">Make it cute ×100</button>
+        <button class="secondary" id="secretBtn" title="Tiny easter egg">Reveal a secret</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card" id="note">
+        <h2>A message for you</h2>
+        <p class="p" id="typeTarget"></p>
+
+        <div class="chips">
+          <div class="chip">You matter.</div>
+          <div class="chip">You’re appreciated.</div>
+          <div class="chip">You’re a whole vibe.</div>
+          <div class="chip">And I’m lucky to know you.</div>
+        </div>
+
+        <div class="secret" id="secretBox">
+          <b>Secret message:</b>
+          <div class="p" style="margin:8px 0 0">
+If you ever doubt yourself — don’t. you made me stay motivated , even in the hard times (summa sollanum nu solla la madam)
+ithu unaku pudikuma nu kooda enaku therla , etho ennala ippothaiku mudinja romba chinna gift. naa sonna maari my money la unaku velli kolusu confirm athu varaikum konjam adjust pannikonga madam.
+unmaiya sollanum na unaku good morning msg pannuna tha en naal start aagum , athe maari night uh good night pota tha en naal  mudiyum. <mark>unaku ena paa ni busy ah iruntha kandukakooda maata</mark>.
+epdiyum college ponathum enalaam maranthuduva ila marakkaama daily nyabagam vachikuviya? neeye ena maranthalum naa una maraka maaten.
+onu sollata, 12th la maths laa naan romba weak uh , athu unakum theriyum , but oru revision test la ni enaku solli kudutha.antha test la
+naa 84/100 marks! apo than enake theriyum naa kooda maths etho poduvaen nu , antha time la en maths sir laam shock uh.
+innonu sollata , 11th la ni alaga iruka nu naan sollitu un kitta vaanguna thiitu irukae 😂 , ni ethuvum thittala , but yosichi paatha ippavum naan keta sorry laam nyabagam varuthu.
+innum onu solren , 12th result varapo nyabagam iruka? oorey bayathula irunthuchu,apo enaku oru msg vanthuchu "uno vilayadalaama?" nu 😂.
+ipo tha game vilayadalaam vaa nu koopta varamaatingara 😔. yen varamaatingara nu keta athuku oru reason 😅. inimel aachum game ku vaanga madam.
+intha maari sollikittae irukalam , sila vishyam sollama kooda irukalam but ippothaiku onu tha sollanum "HAPPY BIRTHDAY".
+          </div>
+        </div>
+      </section>
+
+      <aside class="card">
+        <h2>10 reasons you’re amazing</h2>
+        <ul class="list">
+          <li class="li"><span class="dot"></span><div><b>Your kindness</b><div class="muted">It shows up in the smallest details.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your brain</b><div class="muted">The way you think is genuinely impressive.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your humor</b><div class="muted">You make boring moments fun.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your vibe</b><div class="muted">Comforting + cool. Rare combo.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your strength</b><div class="muted">Quietly powerful.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your taste</b><div class="muted">You just get what looks/feels right.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your loyalty</b><div class="muted">You show up. That matters.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your glow</b><div class="muted">You light up a room without trying.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>Your patience</b><div class="muted">Even when things are chaotic.</div></div></li>
+          <li class="li"><span class="dot"></span><div><b>You.</b><div class="muted">Just you being you is the point.</div></div></li>
+        </ul>
+      </aside>
+    </div>
+
+    <section class="card" style="margin-top:14px">
+      <h2>Little “open when” notes</h2>
+      <div style="display:grid;gap:10px;margin-top:10px">
+        <details>
+          <summary>Open when you’re stressed</summary>
+          <div class="p">Breathe. Drink water. Then remember: you’ve handled worse and still looked cute doing it.</div>
+        </details>
+        <details>
+          <summary>Open when you feel unseen</summary>
+          <div class="p">I see you. The effort. The softness. The strength. You’re not invisible to the people who matter.</div>
+        </details>
+        <details>
+          <summary>Open when you want a smile</summary>
+          <div class="p">Okay imagine a tiny celebration committee of cats throwing confetti for you. That’s happening. Right now.</div>
+        </details>
+      </div>
+    </section>
+
+    <footer>
+      Tip: share this link at midnight, or send it with a “don’t open until Aug 19” warning.
+    </footer>
+  </div>
+
+  <script>
+    // ===== 3-step cute verification =====
+    const PASSWORD = "heartbeat";     // Step 1 password
+    const FINAL_ANSWER = "teju";      // Step 3 must be teju (case-insensitive)
+
+    const lockScreen = document.getElementById("lockScreen");
+    const lockCard   = document.getElementById("lockCard");
+    const codeInput  = document.getElementById("codeInput");
+    const unlockBtn  = document.getElementById("unlockBtn");
+    const lockError  = document.getElementById("lockError");
+
+    const lockTitle  = document.getElementById("lockTitle");
+    const lockSub    = document.getElementById("lockSub");
+    const lockHint   = document.getElementById("lockHint");
+
+    let step = 1;
+
+    function burstHearts(count=14){
+      const hearts = ["💗","💖","💞","💕","💘","🌸","✨"];
+      for(let i=0;i<count;i++){
+        const el = document.createElement("div");
+        el.className = "heart";
+        el.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+        el.style.setProperty("--x", (35 + Math.random()*30) + "vw");
+        el.style.setProperty("--t", (4.5 + Math.random()*3) + "s");
+        el.style.fontSize = (16 + Math.random()*18) + "px";
+        document.body.appendChild(el);
+        setTimeout(()=> el.remove(), 9000);
+      }
+    }
+
+    function shakeLock(){
+      lockCard.classList.remove("shake");
+      void lockCard.offsetWidth;
+      lockCard.classList.add("shake");
+    }
+
+    function setStep(n){
+      step = n;
+      lockError.style.display = "none";
+      lockError.textContent = "Wrong answer — try again.";
+      codeInput.value = "";
+
+      if(step === 1){
+        lockTitle.textContent = "Unlock the birthday page";
+        lockSub.textContent = "Hint: your favourite series";
+        codeInput.type = "password";
+        codeInput.placeholder = "Password";
+        unlockBtn.textContent = "Next";
+        lockHint.textContent = "Step 1 of 3";
+      }
+
+      if(step === 2){
+        lockTitle.textContent = "Verify: Rhythiksha";
+        lockSub.textContent = "Question: your favourite Heart Beat character";
+        codeInput.type = "text";
+        codeInput.placeholder = "Type anything (example: Arjun)";
+        unlockBtn.textContent = "Next";
+        lockHint.textContent = "Step 2 of 3";
+      }
+
+      if(step === 3){
+        lockTitle.textContent = "Final check: Santhosh";
+        lockSub.textContent = "Question: santhosh favourite Heart Beat character";
+        codeInput.type = "text";
+        codeInput.placeholder = "Answer";
+        unlockBtn.textContent = "Unlock";
+        lockHint.textContent = "Step 3 of 3";
+      }
+
+      setTimeout(() => codeInput.focus(), 50);
+    }
+
+    function tryNext(){
+      const entered = (codeInput.value || "").trim();
+
+      // Step 1: password
+      if(step === 1){
+        if(entered.toLowerCase() === PASSWORD){
+          setStep(2);
+        } else {
+          lockError.style.display = "block";
+          shakeLock();
+          codeInput.select();
+        }
+        return;
+      }
+
+      // Step 2: Rhythiksha answer can be anything, but not empty
+      if(step === 2){
+        if(entered.length > 0){
+          setStep(3);
+        } else {
+          lockError.style.display = "block";
+          lockError.textContent = "Please type an answer 🙂";
+          shakeLock();
+          codeInput.focus();
+        }
+        return;
+      }
+
+      // Step 3: must be teju
+      if(step === 3){
+        if(entered.toLowerCase() === FINAL_ANSWER){
+          burstHearts(18);
+          lockScreen.classList.add("fadeOut");
+          setTimeout(() => {
+            lockScreen.style.display = "none";
+          }, 350);
+        } else {
+          lockError.style.display = "block";
+          lockError.textContent = "Wrong answer 😌 try again.";
+          shakeLock();
+          codeInput.select();
+        }
+        return;
+      }
+    }
+
+    unlockBtn.addEventListener("click", tryNext);
+    codeInput.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") tryNext();
+    });
+
+    // Cute ambient hearts in lock card
+    (function lockAmbient(){
+      const icons = ["💗","🌸","✨"];
+      setInterval(() => {
+        if(lockScreen.style.display === "none") return;
+        const el = document.createElement("div");
+        el.className = "lockFloat";
+        el.textContent = icons[Math.floor(Math.random()*icons.length)];
+        el.style.setProperty("--x", Math.floor(Math.random()*100) + "%");
+        el.style.setProperty("--t", (5 + Math.random()*6) + "s");
+        el.style.fontSize = (14 + Math.random()*14) + "px";
+        lockCard.appendChild(el);
+        setTimeout(()=> el.remove(), 12000);
+      }, 650);
+    })();
+
+    window.addEventListener("load", () => {
+      setStep(1);
+    });
+
+    // ===== Existing page JS =====
+    const message = [
+      "Hey Rhythiksha,",
+      "",
+      "Happy Birthday. I hope today treats you gently and beautifully — like the way you treat other people.",
+      "",
+      "I’m really grateful for you. For your energy, your effort, your care, and for being the kind of person who makes my ordinary days feel a little more special.",
+      "",
+      "Intha gift full ah naan ai la ready pannunathu nu nenaikalaam but anga tha madam twist uh , full ah ithu ai illa , konjam html coding kathukittaen ungalukaaga , ai kitta oru sila chinna chinna work kuduthaen.ithu unaku pudikuma nu therla but en full efforts potu ready panni iruken.",
+      "",
+      "So here’s to you — your dreams, your growth, your glow, and the next year of becoming even more you.",
+      "",
+      "With a lot of affection,",
+      "— ❤️"
+    ].join("\n");
+
+    const typeTarget = document.getElementById("typeTarget");
+    const startBtn = document.getElementById("startBtn");
+    const heartsBtn = document.getElementById("heartsBtn");
+    const secretBtn = document.getElementById("secretBtn");
+    const secretBox = document.getElementById("secretBox");
+
+    function typeWrite(text, speed=14){
+      typeTarget.textContent = "";
+      let i=0;
+      const timer = setInterval(() => {
+        typeTarget.textContent += text[i] || "";
+        i++;
+        if(i >= text.length) clearInterval(timer);
+      }, speed);
+    }
+
+    function popHearts(count=18){
+      const hearts = ["💗","💖","💞","💕","💘","🌸","✨"];
+      for(let i=0;i<count;i++){
+        const el = document.createElement("div");
+        el.className = "heart";
+        el.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+        el.style.setProperty("--x", Math.floor(Math.random()*100) + "vw");
+        el.style.setProperty("--t", (6 + Math.random()*6) + "s");
+        el.style.fontSize = (16 + Math.random()*16) + "px";
+        document.body.appendChild(el);
+        setTimeout(()=> el.remove(), 13000);
+      }
+    }
+
+    startBtn.addEventListener("click", () => {
+      typeWrite(message, 14);
+      popHearts(10);
+    });
+
+    heartsBtn.addEventListener("click", () => popHearts(28));
+
+    secretBtn.addEventListener("click", () => {
+      secretBox.style.display = secretBox.style.display === "block" ? "none" : "block";
+      popHearts(8);
+    });
+  </script>
+</body>
+</html>
