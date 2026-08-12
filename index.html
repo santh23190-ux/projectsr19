@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Birthday, Rhythiksha</title>
+
   <style>
     :root{
       --bg1:#fff1f6;
@@ -136,9 +137,85 @@
       background: linear-gradient(135deg, #fff, #fff3f8);
       border:1px dashed rgba(255,77,141,.55);
     }
+
+    /* ===== Cute lock screen (Option A: ask every time) ===== */
+    .lock{
+      position: fixed;
+      inset: 0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      background: radial-gradient(1200px 600px at 20% 10%, #ffe1ec 0%, transparent 55%),
+                  radial-gradient(1000px 500px at 90% 20%, #e6e1ff 0%, transparent 55%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      z-index: 9999;
+    }
+    .lockCard{
+      width:min(520px, 100%);
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(0,0,0,.05);
+      padding: 18px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .lockTitle{
+      margin:6px 0 6px;
+      font-size:22px;
+      letter-spacing:-0.01em;
+    }
+    .lockSub{margin:0 0 12px;color:var(--muted)}
+    .lockRow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .lockInput{
+      padding: 12px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(0,0,0,.12);
+      font-size:16px;
+      outline:none;
+      min-width: 220px;
+    }
+    .lockHint{margin-top:10px;font-size:13px;color:var(--muted)}
+    .lockError{margin-top:10px;font-size:13px;color:#c1121f;display:none}
+    .sparkle{
+      position:absolute; inset:-40px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.7), transparent 35%),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,.6), transparent 35%),
+        radial-gradient(circle at 30% 80%, rgba(255,255,255,.55), transparent 40%);
+      filter: blur(1px);
+      opacity:.6;
+      pointer-events:none;
+    }
   </style>
 </head>
+
 <body>
+  <!-- LOCK SCREEN (password: 19082009) -->
+  <div class="lock" id="lockScreen">
+    <div class="lockCard">
+      <div class="sparkle"></div>
+
+      <div class="badge" style="justify-content:center;margin-bottom:10px;">
+        Enter the secret code ✨
+      </div>
+
+      <div class="lockTitle">Hi Rhythiksha 👀</div>
+      <p class="lockSub">Unlock to open your birthday page</p>
+
+      <div class="lockRow">
+        <input class="lockInput" id="codeInput" type="password" placeholder="Secret code" inputmode="numeric" />
+        <button class="primary" id="unlockBtn">Unlock</button>
+      </div>
+
+      <div class="lockError" id="lockError">Wrong code — try again.</div>
+      <div class="lockHint">Hint: 19-08-2009 😉</div>
+    </div>
+  </div>
+
   <div class="wrap">
     <header>
       <div class="badge">Made with <span>extra</span> love and care for <b>Rhythiksha</b></div>
@@ -159,6 +236,7 @@
       <section class="card" id="note">
         <h2>A message for you</h2>
         <p class="p" id="typeTarget"></p>
+
         <div class="chips">
           <div class="chip">You matter.</div>
           <div class="chip">You’re appreciated.</div>
@@ -169,17 +247,16 @@
         <div class="secret" id="secretBox">
           <b>Secret message:</b>
           <div class="p" style="margin:8px 0 0">
-            If you ever doubt yourself — don’t. you made me stay motivated , even in the hard times (summa sollanum nu solla la madam) 
-            ithu unaku pudikuma nu kooda enaku therla , etho ennala ippothaiku mudinja romba chinna gift. naa sonna maari my money la unaku velli kolusu confirm athu varaikum konjam adjust pannikonga madam.
-            unmaiya sollanum na unaku good morning msg pannuna tha en naal start aagum , athe maari night uh good night pota tha en naal  mudiyum. <mark>unaku ena paa ni busy ah iruntha kandukakooda maata</mark>.
-            epdiyum college ponathum enalaam maranthuduva ila marakkaama daily nyabagam vachikuviya? neeye ena maranthalum naa una maraka maaten.
-            onu sollata, 12th la maths laa naan romba weak uh , athu unakum theriyum , but oru revision test la ni enaku solli kudutha.antha test la
-            naa 84/100 marks! apo than enake theriyum naa kooda maths etho poduvaen nu , antha time la en maths sir laam shock uh. 
-            innonu sollata , 11th la ni alaga iruka nu naan sollitu un kitta vaanguna thiitu irukae 😂 , ni ethuvum thittala , but yosichi paatha ippavum naan keta sorry laam nyabagam varuthu.
-            innum onu solren , 12th result varapo nyabagam iruka? oorey bayathula irunthuchu,apo enaku oru msg vanthuchu "uno vilayadalaama?" nu 😂.
-            ipo tha game vilayadalaam vaa nu koopta varamaatingara 😔. yen varamaatingara nu keta athuku oru reason 😅. inimel aachum game ku vaanga madam.
-            intha maari sollikittae irukalam , sila vishyam sollama kooda irukalam but ippothaiku onu tha sollanum "HAPPY BIRTHDAY".
-            
+If you ever doubt yourself — don’t. you made me stay motivated , even in the hard times (summa sollanum nu solla la madam)
+ithu unaku pudikuma nu kooda enaku therla , etho ennala ippothaiku mudinja romba chinna gift. naa sonna maari my money la unaku velli kolusu confirm athu varaikum konjam adjust pannikonga madam.
+unmaiya sollanum na unaku good morning msg pannuna tha en naal start aagum , athe maari night uh good night pota tha en naal  mudiyum. <mark>unaku ena paa ni busy ah iruntha kandukakooda maata</mark>.
+epdiyum college ponathum enalaam maranthuduva ila marakkaama daily nyabagam vachikuviya? neeye ena maranthalum naa una maraka maaten.
+onu sollata, 12th la maths laa naan romba weak uh , athu unakum theriyum , but oru revision test la ni enaku solli kudutha.antha test la
+naa 84/100 marks! apo than enake theriyum naa kooda maths etho poduvaen nu , antha time la en maths sir laam shock uh.
+innonu sollata , 11th la ni alaga iruka nu naan sollitu un kitta vaanguna thiitu irukae 😂 , ni ethuvum thittala , but yosichi paatha ippavum naan keta sorry laam nyabagam varuthu.
+innum onu solren , 12th result varapo nyabagam iruka? oorey bayathula irunthuchu,apo enaku oru msg vanthuchu "uno vilayadalaama?" nu 😂.
+ipo tha game vilayadalaam vaa nu koopta varamaatingara 😔. yen varamaatingara nu keta athuku oru reason 😅. inimel aachum game ku vaanga madam.
+intha maari sollikittae irukalam , sila vishyam sollama kooda irukalam but ippothaiku onu tha sollanum "HAPPY BIRTHDAY".
           </div>
         </div>
       </section>
@@ -225,6 +302,32 @@
   </div>
 
   <script>
+    // ===== Password Lock (Option A: ask EVERY time) =====
+    const SECRET_CODE = "19082009";
+
+    const lockScreen = document.getElementById("lockScreen");
+    const codeInput  = document.getElementById("codeInput");
+    const unlockBtn  = document.getElementById("unlockBtn");
+    const lockError  = document.getElementById("lockError");
+
+    function tryUnlock(){
+      const entered = (codeInput.value || "").trim();
+      if(entered === SECRET_CODE){
+        lockScreen.style.display = "none";
+      } else {
+        lockError.style.display = "block";
+        codeInput.select();
+      }
+    }
+    unlockBtn.addEventListener("click", tryUnlock);
+    codeInput.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") tryUnlock();
+    });
+
+    // (Optional cute touch) focus input on load
+    window.addEventListener("load", () => codeInput && codeInput.focus());
+
+    // ===== Your existing page JS =====
     const message = [
       "Hey Rhythiksha,",
       "",
